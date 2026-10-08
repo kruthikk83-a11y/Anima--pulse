@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Anime Pulse</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0b14;
+    color: white;
+}
+
+header {
+    background: #151525;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #8b5cf6;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+}
+
+.hero {
+    padding: 70px 7%;
+    background:
+    linear-gradient(90deg, #0b0b14 20%, transparent),
+    linear-gradient(135deg, #24124d, #0b0b14);
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    max-width: 600px;
+    color: #c7c7d5;
+    line-height: 1.6;
+}
+
+.buttons {
+    margin-top: 25px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    margin-right: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.primary {
+    background: #8b5cf6;
+    color: white;
+}
+
+.secondary {
+    background: #25253a;
+    color: white;
+}
+
+section {
+    padding: 40px 6%;
+}
+
+section h2 {
+    margin-bottom: 20px;
+}
+
+.search {
+    width: 100%;
+    max-width: 500px;
+    padding: 13px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 25px;
+    background: #1b1b2b;
+    color: white;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.filter {
+    background: #202035;
+    border: none;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter:hover {
+    background: #8b5cf6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #171725;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.poster {
+    height: 240px;
+    background: linear-gradient(135deg, #3b216b, #111122);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.info {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.card button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 9px;
+    border: none;
+    border-radius: 7px;
+    background: #8b5cf6;
+    color: white;
+    cursor: pointer;
+}
+
+.player {
+    background: #050509;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+video {
+    width: 100%;
+    max-height: 500px;
+    background: black;
+    border-radius: 8px;
+}
+
+.episodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.episode {
+    padding: 10px 15px;
+    background: #222239;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #10101c;
+    color: #aaa;
+}
+
+@media(max-width:700px) {
+    nav {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .poster {
+        height: 210px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Anime <span>Pulse</span>
+</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#series">Series</a>
+<a href="#movies">Movies</a>
+<a href="#languages">Languages</a>
+</nav>
+
+</header>
+
+
+<!-- HOME -->
+
+<div class="hero" id="home">
+
+<h1>Welcome to Anime Pulse</h1>
+
+<p>
+Your anime hub for discovering series, movies, seasons,
+episodes and different language options.
+</p>
+
+<div class="buttons">
+<a href="#series" class="btn primary">Explore Anime</a>
+<a href="#movies" class="btn secondary">Anime Movies</a>
+</div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<section>
+
+<h2>🔎 Search Anime</h2>
+
+<input
+class="search"
+id="searchBox"
+type="text"
+placeholder="Search anime..."
+onkeyup="searchAnime()"
+>
+
+</section>
+
+
+<!-- LANGUAGES -->
+
+<section id="languages">
+
+<h2>🌍 Languages</h2>
+
+<div class="filters">
+
+<button class="filter" onclick="filterLanguage('All')">All</button>
+<button class="filter" onclick="filterLanguage('Japanese')">Japanese</button>
+<button class="filter" onclick="filterLanguage('English')">English</button>
+<button class="filter" onclick="filterLanguage('Hindi')">Hindi</button>
+<button class="filter" onclick="filterLanguage('Telugu')">Telugu</button>
+<button class="filter" onclick="filterLanguage('Tamil')">Tamil</button>
+<button class="filter" onclick="filterLanguage('Malayalam')">Malayalam</button>
+
+</div>
+
+</section>
+
+
+<!-- SERIES -->
+
+<section id="series">
+
+<h2>🔥 Popular Anime</h2>
+
+<div class="grid" id="animeGrid">
+
+
+<div class="card" data-language="Japanese">
+
+<div class="poster">⚔️</div>
+
+<div class="card-content">
+
+<h3>Anime Example 1</h3>
+
+<div class="info">
+Japanese • TV Series
+</div>
+
+<div class="info">
+Season 1 • 12 Episodes
+</div>
+
+<button onclick="showAnime('Anime Example 1')">
+View Anime
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card" data-language="English">
+
+<div class="poster">🚀</div>
+
+<div class="card-content">
+
+<h3>Anime Example 2</h3>
+
+<div class="info">
+English • TV Series
+</div>
+
+<div class="info">
+Season 2 • 24 Episodes
+</div>
+
+<button onclick="showAnime('Anime Example 2')">
+View Anime
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card" data-language="Hindi">
+
+<div class="poster">🔥</div>
+
+<div class="card-content">
+
+<h3>Anime Example 3</h3>
+
+<div class="info">
+Hindi • TV Series
+</div>
+
+<div class="info">
+Season 1 • 10 Episodes
+</div>
+
+<button onclick="showAnime('Anime Example 3')">
+View Anime
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card" data-language="Telugu">
+
+<div class="poster">🌟</div>
+
+<div class="card-content">
+
+<h3>Anime Example 4</h3>
+
+<div class="info">
+Telugu • TV Series
+</div>
+
+<div class="info">
+Season 1 • 12 Episodes
+</div>
+
+<button onclick="showAnime('Anime Example 4')">
+View Anime
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MOVIES -->
+
+<section id="movies">
+
+<h2>🎬 Anime Movies</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="poster">🎬</div>
+
+<div class="card-content">
+
+<h3>Anime Movie 1</h3>
+
+<div class="info">
+Movie • HD
+</div>
+
+<button onclick="showAnime('Anime Movie 1')">
+Watch Details
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="poster">🍿</div>
+
+<div class="card-content">
+
+<h3>Anime Movie 2</h3>
+
+<div class="info">
+Movie • HD
+</div>
+
+<button onclick="showAnime('Anime Movie 2')">
+Watch Details
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PLAYER -->
+
+<section>
+
+<h2>▶️ Video Player</h2>
+
+<div class="player">
+
+<video controls poster="">
+<!--
+Add a video URL only when you have permission
+to distribute/embed that video.
+
+Example:
+
+<source src="YOUR-LICENSED-VIDEO.mp4"
+type="video/mp4">
+-->
+
+Your browser does not support video playback.
+
+</video>
+
+<h3 style="margin-top:15px;">
+Anime Pulse Player
+</h3>
+
+<p class="info">
+Add your own or properly licensed videos here.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- SEASONS -->
+
+<section>
+
+<h2>📚 Seasons & Episodes</h2>
+
+<h3>Example Anime — Season 1</h3>
+
+<div class="episodes">
+
+<button class="episode">Episode 1</button>
+<button class="episode">Episode 2</button>
+<button class="episode">Episode 3</button>
+<button class="episode">Episode 4</button>
+<button class="episode">Episode 5</button>
+<button class="episode">Episode 6</button>
+<button class="episode">Episode 7</button>
+<button class="episode">Episode 8</button>
+<button class="episode">Episode 9</button>
+<button class="episode">Episode 10</button>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<p>© 2026 Anime Pulse</p>
+<p>Anime discovery website • Built with HTML, CSS & JavaScript</p>
+
+</footer>
+
+
+<script>
+
+function showAnime(name) {
+
+    alert(
+        name +
+        "\\n\\nAdd your authorized video, episodes,
+        description and information here."
+    );
+
+}
+
+
+function filterLanguage(language) {
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+
+        if (!card.dataset.language) return;
+
+        if (
+            language === "All" ||
+            card.dataset.language === language
+        ) {
+
+            card.style.display = "block";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+function searchAnime() {
+
+    const search =
+        document.getElementById("searchBox")
+        .value.toLowerCase();
+
+    const cards =
+        document.querySelectorAll("#animeGrid .card");
+
+    cards.forEach(card => {
+
+        const name =
+            card.innerText.toLowerCase();
+
+        card.style.display =
+            name.includes(search)
+            ? "block"
+            : "none";
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
