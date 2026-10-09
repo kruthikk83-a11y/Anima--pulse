@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anime Pulse — Watch & Discover</title>
+<style>
+:root{--bg:#0a0b14;--panel:#141626;--panel2:#1d2034;--text:#f7f7ff;--muted:#aeb2ca;--pink:#ff4fa3;--purple:#8b5cf6;--line:#2b2e46}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#21123b 0,transparent 36%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+button,input,select{font:inherit}button{cursor:pointer;border:0}a{color:inherit}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:14px 5%;background:#0a0b14eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.logo{font-size:22px;font-weight:900;white-space:nowrap;letter-spacing:-.8px}.logo span{color:var(--pink)}
+nav{display:flex;gap:8px;flex:1;flex-wrap:wrap}nav button,.quiet{background:transparent;color:var(--muted);padding:9px 12px;border-radius:10px}nav button.active,nav button:hover,.quiet:hover{background:var(--panel2);color:white}
+.search{width:min(250px,30vw);background:var(--panel);border:1px solid var(--line);border-radius:12px;color:white;padding:10px 12px;min-width:100px}
+.primary{background:linear-gradient(110deg,var(--pink),var(--purple));color:white;padding:10px 16px;border-radius:12px;font-weight:750}.secondary{background:var(--panel2);color:white;padding:10px 15px;border:1px solid var(--line);border-radius:12px}
+main{max-width:1250px;margin:auto;padding:26px 5% 60px}
+.hero{min-height:320px;border-radius:24px;overflow:hidden;display:flex;align-items:center;padding:clamp(24px,5vw,54px);background:linear-gradient(90deg,#171127 0%,#201443d9 48%,#1b123244 100%),radial-gradient(circle at 80% 35%,#ff4fa3 0,transparent 20%),linear-gradient(130deg,#2b1650,#11182c);border:1px solid #3c2a5e;position:relative}
+.hero:after{content:"✦  ✧  ★  ✦";position:absolute;right:4%;bottom:12%;font-size:clamp(35px,6vw,75px);color:#ffffff30;letter-spacing:12px;transform:rotate(-12deg)}
+.hero-content{max-width:570px;position:relative;z-index:1}.eyebrow{color:#ffacd4;text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:800}.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:12px 0}.hero p{color:#dedbed;max-width:500px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:32px 0 14px;gap:10px}.section-head h2{font-size:22px;margin:0}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0;transition:transform .18s,border-color .18s}.card:hover{transform:translateY(-4px);border-color:#6c4e9f}
+.poster{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:clamp(45px,6vw,72px);position:relative;background:linear-gradient(145deg,var(--c1),var(--c2));}
+.poster:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0809139c,transparent 60%)}
+.poster .tag{position:absolute;z-index:1;top:10px;left:10px;background:#080913b8;border:1px solid #ffffff33;border-radius:7px;padding:4px 7px;font-size:10px;font-weight:800}
+.card-body{padding:12px}.card h3{font-size:15px;margin:0 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.meta{font-size:12px;color:var(--muted)}.card-actions{display:flex;gap:6px;margin-top:10px}.card-actions button{flex:1;padding:8px 5px;border-radius:9px;background:var(--panel2);color:white;font-size:12px}.card-actions button:hover{background:#393252}.empty{padding:40px 10px;text-align:center;color:var(--muted);grid-column:1/-1}
+footer{border-top:1px solid var(--line);padding:25px 5%;color:var(--muted);text-align:center;font-size:13px}
+.modal{display:none;position:fixed;inset:0;z-index:30;background:#05050bd9;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.dialog{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px;max-height:90vh;overflow:auto}.dialog h2{margin:0 0 8px}.dialog label{display:block;margin:14px 0 5px;color:var(--muted);font-size:13px}.dialog input,.dialog select{width:100%;padding:12px;background:#0d0f1b;border:1px solid var(--line);border-radius:10px;color:white}.dialog .primary{width:100%;margin-top:16px}.dialog-top{display:flex;align-items:center;justify-content:space-between}.close{background:transparent;color:white;font-size:24px}.notice{font-size:12px;color:var(--muted);margin-top:12px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#252841;color:white;border:1px solid #454a6c;padding:12px 18px;border-radius:12px;display:none;z-index:50;max-width:90vw}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}header{flex-wrap:wrap;gap:10px}nav{order:3;flex-basis:100%;overflow:auto;flex-wrap:nowrap}nav button{white-space:nowrap}.search{margin-left:auto}}
+@media(max-width:540px){header{padding:12px 4%}.logo{font-size:19px}.search{width:42vw}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}main{padding:18px 4% 40px}.hero{min-height:300px;padding:24px}.hero:after{font-size:36px;right:1%;bottom:5%}.section-head h2{font-size:19px}.card-body{padding:10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ANIME <span>PULSE</span></div>
+  <nav id="nav">
+    <button class="active" data-cat="All">Home</button>
+    <button data-cat="Anime">Anime</button><button data-cat="Cartoons">Cartoons</button>
+    <button data-cat="Animated Movies">Movies</button><button data-cat="Animal Shows">Animal Shows</button>
+    <button data-cat="Favorites">♥ Favorites</button>
+  </nav>
+  <input id="search" class="search" placeholder="Search titles…" aria-label="Search titles">
+  <button id="accountBtn" class="primary">Login</button>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Your next adventure starts here</div>
+      <h1>Stories for every world.</h1>
+      <p>Discover anime, cartoons, animated movies, and animal adventures in one colorful place.</p>
+      <div class="actions"><button class="primary" id="exploreBtn">Explore library ↓</button><button class="secondary" id="heroLogin">Create free account</button></div>
+    </div>
+  </section>
+  <div class="section-head"><h2 id="sectionTitle">Explore the library</h2><span class="muted" id="count"></span></div>
+  <div class="grid" id="catalog"></div>
+  <div class="section-head"><h2>🌟 What’s on Anime Pulse?</h2></div>
+  <p class="muted">Browse sample titles, save favorites, and choose your preferred language. This starter catalog is a design demo, not a licensed streaming library. Add links only to videos you own or have permission to show.</p>
+</main>
+<footer>© 2026 Anime Pulse · A fan-friendly discovery website concept · Stream responsibly with authorized sources.</footer>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="dialog">
+    <div class="dialog-top"><h2 id="authTitle">Welcome to Anime Pulse</h2><button class="close" id="closeAuth" aria-label="Close">×</button></div>
+    <p class="muted" id="authSub">Log in to keep your favorites on this browser.</p>
+    <form id="authForm">
+      <label for="username">Username</label><input id="username" required minlength="3" autocomplete="username" placeholder="Choose a username">
+      <div id="emailWrap"><label for="email">Email (optional for this demo)</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+      <label for="password">Password</label><input id="password" type="password" required minlength="4" autocomplete="current-password" placeholder="At least 4 characters">
+      <button class="primary" id="authSubmit" type="submit">Create account</button>
+    </form>
+    <p class="notice">Demo only: account information is stored on this device and is not securely encrypted or synced. Do not use a real or reused password. A real public website needs secure server-side authentication.</p>
+    <button class="quiet" id="switchAuth">Already have an account? Log in</button>
+  </div>
+</div>
+<div class="modal" id="detailModal" role="dialog" aria-modal="true">
+  <div class="dialog"><div class="dialog-top"><h2 id="detailTitle">Title</h2><button class="close" id="closeDetail">×</button></div><div id="detailBody"></div><button class="primary" id="detailAction">Learn more</button><p class="notice">Episodes and seasons are sample listing information. Playback requires an authorized video URL.</p></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const titles = [
+ {id:1,title:"Skybound Heroes",cat:"Anime",emoji:"🌌",c1:"#3b1d72",c2:"#167caa",year:2025,seasons:2,episodes:24,lang:"Japanese, English",desc:"A team of young heroes discovers a mysterious world above the clouds."},
+ {id:2,title:"Ninja Star Academy",cat:"Anime",emoji:"🥷",c1:"#8b2449",c2:"#f18a38",year:2024,seasons:3,episodes:36,lang:"Japanese, English, Hindi",desc:"Friends train, learn teamwork, and take on exciting challenges."},
+ {id:3,title:"Moonlight Mecha",cat:"Anime",emoji:"🤖",c1:"#163a71",c2:"#7554c8",year:2025,seasons:1,episodes:12,lang:"Japanese, English",desc:"Young pilots protect their city with clever robots."},
+ {id:4,title:"The Little Cloud",cat:"Cartoons",emoji:"☁️",c1:"#50b5d9",c2:"#746be9",year:2023,seasons:2,episodes:26,lang:"English, Hindi, Telugu",desc:"A tiny cloud and friends explore the world and help their neighbors."},
+ {id:5,title:"Jungle Pals",cat:"Animal Shows",emoji:"🦁",c1:"#216b45",c2:"#b6a43c",year:2024,seasons:4,episodes:40,lang:"English, Hindi, Telugu",desc:"Meet amazing animals and learn about habitats and nature."},
+ {id:6,title:"Robot Buddy",cat:"Cartoons",emoji:"🤖",c1:"#2578a5",c2:"#38b6a2",year:2022,seasons:3,episodes:39,lang:"English, Hindi",desc:"A friendly robot makes everyday life a little more fun."},
+ {id:7,title:"Ocean Explorers",cat:"Animal Shows",emoji:"🐬",c1:"#075985",c2:"#16b8c5",year:2025,seasons:2,episodes:20,lang:"English, Hindi, Telugu",desc:"Dive into the ocean to discover fascinating sea life."},
+ {id:8,title:"Dreamland Quest",cat:"Animated Movies",emoji:"🏰",c1:"#733eaa",c2:"#df6b9b",year:2024,seasons:1,episodes:1,lang:"English, Hindi, Telugu",desc:"A magical animated movie about courage, kindness, and imagination."},
+ {id:9,title:"Puppy Patrol Friends",cat:"Animal Shows",emoji:"🐶",c1:"#b96a35",c2:"#edb958",year:2023,seasons:3,episodes:30,lang:"English, Hindi",desc:"Playful puppies solve small problems and help their community."},
+ {id:10,title:"Galaxy Racers",cat:"Cartoons",emoji:"🚀",c1:"#1f2c73",c2:"#dd4e84",year:2025,seasons:1,episodes:18,lang:"English, Hindi, Telugu",desc:"A fast-paced space adventure full of friendship and teamwork."}
+];
+let category="All",authMode="signup",currentUser=localStorage.getItem("ap_current_user")||"";
+const $=id=>document.getElementById(id);
+function getAccounts(){try{return JSON.parse(localStorage.getItem("ap_accounts")||"{}")}catch{return {}}}
+function getFavs(){if(!currentUser)return [];try{return JSON.parse(localStorage.getItem("ap_favs_"+currentUser)||"[]")}catch{return []}}
+function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$("toast").style.display="none",2600)}
+function render(){
+ const q=$("search").value.trim().toLowerCase(),favs=getFavs();
+ const list=titles.filter(t=>(category==="All"||t.cat===category||(category==="Favorites"&&favs.includes(t.id)))&&(!q||(t.title+" "+t.cat+" "+t.lang).toLowerCase().includes(q)));
+ $("sectionTitle").textContent=category==="All"?"Explore the library":category==="Favorites"?"Your favorites":category;
+ $("count").textContent=list.length+" titles";
+ $("catalog").innerHTML=list.length?list.map(t=>`<article class="card"><div class="poster" style="--c1:${t.c1};--c2:${t.c2}"><span>${t.emoji}</span><span class="tag">${t.cat}</span></div><div class="card-body"><h3>${t.title}</h3><div class="meta">${t.year} · ${t.seasons} season${t.seasons===1?"":"s"} · ${t.episodes} ep.</div><div class="card-actions"><button onclick="showDetails(${t.id})">Details</button><button onclick="toggleFav(${t.id})">${favs.includes(t.id)?"♥ Saved":"♡ Save"}</button></div></div></article>`).join(""):'<div class="empty">No titles found. Try another search or sign in to save favorites.</div>';
+ $("accountBtn").textContent=currentUser?("Hi, "+currentUser):"Login";
+}
+function setCategory(c){category=c;document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.cat===c));render()}
+document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>setCategory(b.dataset.cat)));
+$("search").addEventListener("input",render);
+$("exploreBtn").onclick=()=>$("catalog").scrollIntoView({behavior:"smooth"});
+function openAuth(mode){authMode=mode;$("authTitle").textContent=mode==="signup"?"Create your free account":"Welcome back";$("authSub").textContent=mode==="signup"?"Create a local demo account to save favorites.":"Log in to your local demo account."; $("authSubmit").textContent=mode==="signup"?"Create account":"Log in";$("switchAuth").textContent=mode==="signup"?"Already have an account? Log in":"New here? Create an account";$("emailWrap").style.display=mode==="signup"?"block":"none";$("authModal").classList.add("open")}
+$("accountBtn").onclick=()=>currentUser?logout():openAuth("login");
+$("heroLogin").onclick=()=>openAuth("signup");$("closeAuth").onclick=()=>$("authModal").classList.remove("open");
+$("switchAuth").onclick=()=>openAuth(authMode==="signup"?"login":"signup");
+function logout(){currentUser="";localStorage.removeItem("ap_current_user");render();toast("You have logged out.");}
+$("authForm").addEventListener("submit",e=>{e.preventDefault();const name=$("username").value.trim(),pass=$("password").value,accounts=getAccounts();if(name.length<3||pass.length<4){toast("Use a username of 3+ characters and password of 4+ characters.");return}
+ if(authMode==="signup"){if(accounts[name]){toast("That username already exists. Try logging in.");return}accounts[name]={password:pass,email:$("email").value.trim()};localStorage.setItem("ap_accounts",JSON.stringify(accounts));}
+ else if(!accounts[name]||accounts[name].password!==pass){toast("Username or password is incorrect.");return}
+ currentUser=name;localStorage.setItem("ap_current_user",name);$("authModal").classList.remove("open");$("authForm").reset();render();toast("Welcome, "+name+"!");
+});
+function toggleFav(id){if(!currentUser){toast("Please log in first to save favorites.");openAuth("login");return}let f=getFavs();f=f.includes(id)?f.filter(x=>x!==id):[...f,id];localStorage.setItem("ap_favs_"+currentUser,JSON.stringify(f));render();toast(f.includes(id)?"Added to favorites.":"Removed from favorites.");}
+function showDetails(id){const t=titles.find(x=>x.id===id);if(!t)return;$("detailTitle").textContent=t.title;$("detailBody").innerHTML=`<p class="muted">${t.cat} · ${t.year}</p><p>${t.desc}</p><p><b>Seasons:</b> ${t.seasons}<br><b>Episodes:</b> ${t.episodes}<br><b>Languages listed:</b> ${t.lang}</p><label for="languageSelect">Choose display language</label><select id="languageSelect"><option>English</option><option>Hindi</option><option>Telugu</option><option>Tamil</option><option>Japanese</option><option>Spanish</option></select><p class="notice">Language options are a demo. Actual audio/subtitles depend on the licensed video provider.</p>`;$("detailAction").textContent="Close details";$("detailAction").onclick=()=>$("detailModal").classList.remove("open");$("detailModal").classList.add("open")}
+$("closeDetail").onclick=()=>$("detailModal").classList.remove("open");
+for(const id of ["authModal","detailModal"])$(id).addEventListener("click",e=>{if(e.target.id===id)$(id).classList.remove("open")});
+render();
+</script>
+</body>
+</html>
